@@ -160,6 +160,23 @@ describe('Modal', function () {
     assert.match(dialog.props.className, /\btestCss\b/);
   });
 
+  it('Should use dialogComponent', function () {
+    let noOp = function () {};
+
+    class CustomDialog {
+      render(){ return <div {...this.props}/>; }
+    }
+
+    let instance = render(
+      <Modal show dialogComponent={CustomDialog} onHide={noOp}>
+        <strong>Message</strong>
+      </Modal>
+    , mountPoint);
+
+    assert.ok(instance.refs.dialog instanceof CustomDialog);
+  });
+
+
   it('Should pass transition callbacks to Transition', function (done) {
     let count = 0;
     let increment = ()=> count++;
